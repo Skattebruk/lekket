@@ -9,26 +9,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#ECEDF4;
-    --surface:#FaFaFD;
-    --ink:#16172B;
-    --ink-soft:#565976;
-    --line:#D7D9E6;
-    --line-strong:#C3C6D8;
-    --accent:#5A4FE3;
-    --accent-deep:#3E33C2;
-    --accent-soft:#E9E7FB;
+    --bg:#13142A;
+    --surface:#1B1D3A;
+    --input-bg:#11122A;
+    --ink:#EAEBF7;
+    --ink-soft:#9FA2C4;
+    --line:#2C2E55;
+    --line-strong:#3C3E70;
+    --accent:#7C71F2;
+    --accent-deep:#B7AFFF;
+    --accent-soft:#262455;
 
-    --safe:#1F9D5E;  --safe-bg:#E1F2E8;
-    --warn:#C9821C;  --warn-bg:#FaeEdC;
-    --danger:#D23B36; --danger-bg:#FAE3E2;
+    --safe:#34D27B;  --safe-bg:#16301F;
+    --warn:#F2B341;  --warn-bg:#33260F;
+    --danger:#FF5C55; --danger-bg:#3A1717;
 
     --r:12px;
     --maxw:920px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;color-scheme:dark}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
   h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif}
   .mono{font-family:'JetBrains Mono',monospace}
@@ -51,7 +52,7 @@
   .tool{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;margin:30px 0 0;box-shadow:0 1px 0 rgba(0,0,0,.02)}
   .field{position:relative}
   .field label{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;text-align:left}
-  .field input{width:100%;font-family:'JetBrains Mono';font-size:18px;letter-spacing:.02em;padding:15px 52px 15px 16px;border:1.5px solid var(--line-strong);border-radius:var(--r);background:#fff;color:var(--ink);outline:none;transition:.15s}
+  .field input{width:100%;font-family:'JetBrains Mono';font-size:18px;letter-spacing:.02em;padding:15px 52px 15px 16px;border:1.5px solid var(--line-strong);border-radius:var(--r);background:var(--input-bg);color:var(--ink);outline:none;transition:.15s}
   .field input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
   .toggle{position:absolute;right:8px;top:34px;border:0;background:transparent;cursor:pointer;padding:8px;color:var(--ink-soft);border-radius:8px}
   .toggle:hover{background:var(--accent-soft);color:var(--accent-deep)}
@@ -63,6 +64,9 @@
   .meter-info{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px}
   .meter-label{font-family:'Space Grotesk';font-weight:600;font-size:14.5px}
   .meter-detail{font-size:12.5px;color:var(--ink-soft);font-family:'JetBrains Mono'}
+  .meter-why{display:none;margin-top:9px;font-size:13px;color:var(--danger);text-align:left;gap:7px;align-items:flex-start}
+  .meter-why.show{display:flex}
+  .meter-why svg{width:15px;height:15px;flex:none;margin-top:2px}
 
   .checkbtn{width:100%;margin-top:18px;font-family:'Space Grotesk';font-weight:600;font-size:16px;padding:14px;border:0;border-radius:var(--r);background:var(--accent);color:#fff;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:9px}
   .checkbtn:hover{background:var(--accent-deep)}
@@ -77,7 +81,7 @@
   .result-inner{padding:20px;border:1.5px solid;border-radius:var(--r)}
   .result.safe .result-inner{border-color:var(--safe);background:var(--safe-bg)}
   .result.danger .result-inner{border-color:var(--danger);background:var(--danger-bg)}
-  .result.err .result-inner{border-color:var(--line-strong);background:#fff}
+  .result.err .result-inner{border-color:var(--line-strong);background:var(--surface)}
   .result h3{font-size:19px;font-weight:700;display:flex;align-items:center;gap:10px;letter-spacing:-0.01em}
   .result .rbody{font-size:14.5px;margin-top:8px;color:var(--ink)}
   .result .rbody b{font-family:'Space Grotesk'}
@@ -86,7 +90,7 @@
   .result.danger .badge{background:var(--danger);color:#fff}
 
   /* k-anonymity visualization */
-  .kviz{margin-top:16px;background:#fff;border:1px dashed var(--line-strong);border-radius:10px;padding:14px}
+  .kviz{margin-top:16px;background:var(--input-bg);border:1px dashed var(--line-strong);border-radius:10px;padding:14px}
   .kviz .ktitle{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:9px}
   .hashline{font-family:'JetBrains Mono';font-size:13px;word-break:break-all;line-height:1.7}
   .hashline .sent{background:var(--accent);color:#fff;padding:1px 3px;border-radius:3px;font-weight:600}
@@ -125,7 +129,7 @@
 <header class="nav">
   <div class="wrap navrow">
     <div class="brand">
-      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#5A4FE3"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#16172B" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
+      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#7C71F2"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#EAEBF7" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
       Lekket?
     </div>
     <div class="navtag"><span class="lock"></span>Passordet forlater aldri enheten din</div>
@@ -158,6 +162,10 @@
         <div class="meter-info">
           <span class="meter-label" id="strengthLabel">—</span>
           <span class="meter-detail" id="strengthDetail"></span>
+        </div>
+        <div class="meter-why" id="strengthWhy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          <span id="strengthWhyText"></span>
         </div>
       </div>
 
@@ -225,6 +233,8 @@ const meter = document.getElementById('meter');
 const segs = [...document.querySelectorAll('.meter-seg')];
 const strengthLabel = document.getElementById('strengthLabel');
 const strengthDetail = document.getElementById('strengthDetail');
+const strengthWhy = document.getElementById('strengthWhy');
+const strengthWhyText = document.getElementById('strengthWhyText');
 const checkBtn = document.getElementById('checkBtn');
 const result = document.getElementById('result');
 const resultInner = document.getElementById('resultInner');
@@ -236,6 +246,65 @@ const STRENGTH = [
   {label:'Greit',        color:'var(--warn)'},
   {label:'Sterkt',       color:'var(--safe)'},
 ];
+
+// liste over de vanligste passordene / ordene (små bokstaver)
+const COMMON_PASSWORDS = new Set([
+  'passord','password','passw0rd','passordet','pa55ord','p@ssord','p@ssw0rd',
+  '123456','1234567','12345678','123456789','1234567890','12345','1234','123123','112233',
+  '111111','000000','121212','654321','123321','666666','999999','159753','147258',
+  'qwerty','qwertz','qwertyuiop','azerty','asdf','asdfgh','asdfghjk','asdfghjkl',
+  'zxcvbn','zxcvbnm','qazwsx','qweasd','1q2w3e','1q2w3e4r','1qaz2wsx',
+  'iloveyou','admin','administrator','letmein','welcome','monkey','dragon','shadow',
+  'sunshine','princess','football','fotball','baseball','superman','batman','master',
+  'login','hallo','hei','heihei','halla','norge','norway','sommer','vinter','sol',
+  'liverpool','barcelona','chelsea','arsenal','manutd','rosenborg',
+  'martin','marius','kristian','andreas','jonas','emilie','ole','per','kari','nordmann',
+  'kjærlighet','jegelskerdeg','solskinn','familie','mamma','pappa','test','prøve',
+  'abc123','abcabc','abcdef','abcd1234','qwe123','passordet1'
+]);
+
+// tastaturrekker brukt til å oppdage mønstre som «qwerty», «asdf»
+const KEYBOARD_ROWS = ['qwertyuiopå','asdfghjkløæ','zxcvbnm','1234567890','qwertzuiop'];
+
+function isRepeatedChar(p){
+  return p.length >= 4 && /^(.)\1+$/.test(p);
+}
+
+function isSequential(p){
+  if(p.length < 4) return false;
+  let inc = true, dec = true;
+  for(let i = 1; i < p.length; i++){
+    const d = p.charCodeAt(i) - p.charCodeAt(i-1);
+    if(d !== 1) inc = false;
+    if(d !== -1) dec = false;
+  }
+  return inc || dec;
+}
+
+function isKeyboardRun(p){
+  const s = p.toLowerCase();
+  if(s.length < 4) return false;
+  const rev = [...s].reverse().join('');
+  return KEYBOARD_ROWS.some(row => row.includes(s) || row.includes(rev));
+}
+
+// returnerer en forklaring hvis passordet er åpenbart svakt, ellers null
+function weaknessReason(p){
+  const lower = p.toLowerCase();
+  if(COMMON_PASSWORDS.has(lower))
+    return 'Dette er ett av verdens mest brukte passord — det knekkes på et øyeblikk.';
+  // vanlig ord etterfulgt av tall/enkelt tegn, f.eks. «passord123»
+  const base = lower.replace(/[0-9!#@$._\-]+$/, '');
+  if(base.length >= 3 && base !== lower && COMMON_PASSWORDS.has(base))
+    return 'Dette er et vanlig ord med tall på slutten — blant de aller første mønstrene angripere prøver.';
+  if(isRepeatedChar(p))
+    return 'Dette er bare det samme tegnet gjentatt.';
+  if(isSequential(p))
+    return 'Dette er en enkel rekkefølge (som «123456» eller «abcdef»).';
+  if(isKeyboardRun(p))
+    return 'Dette er et tastaturmønster (som «qwerty») — kjent for alle som gjetter passord.';
+  return null;
+}
 
 // lokal styrkevurdering (grov, pedagogisk)
 function assess(p){
@@ -258,18 +327,27 @@ function assess(p){
   else if(bits < 45) score = 1;
   else if(bits < 65) score = 2;
   else score = 3;
-  return {score, classes, len, bits:Math.round(bits)};
+  // åpenbart svake/vanlige passord overstyrer lengde og tegnvariasjon
+  const reason = weaknessReason(p);
+  if(reason) score = 0;
+  return {score, classes, len, bits:Math.round(bits), reason};
 }
 
 function renderMeter(p){
   const a = assess(p);
-  if(a.score < 0){ meter.hidden = true; checkBtn.disabled = true; return; }
+  if(a.score < 0){ meter.hidden = true; checkBtn.disabled = true; strengthWhy.classList.remove('show'); return; }
   meter.hidden = false;
   checkBtn.disabled = false;
   segs.forEach((s,i)=>{ s.style.background = i <= a.score ? STRENGTH[a.score].color : 'var(--line)'; });
   strengthLabel.textContent = STRENGTH[a.score].label;
   strengthLabel.style.color = STRENGTH[a.score].color;
   strengthDetail.textContent = `${a.len} tegn · ~${a.bits} bit`;
+  if(a.reason){
+    strengthWhyText.textContent = a.reason;
+    strengthWhy.classList.add('show');
+  } else {
+    strengthWhy.classList.remove('show');
+  }
 }
 
 pw.addEventListener('input', ()=>{ renderMeter(pw.value); result.classList.remove('show'); });
