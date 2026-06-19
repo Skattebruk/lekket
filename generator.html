@@ -41,14 +41,14 @@
         <button id="modePhrase" role="tab" aria-selected="false">Passordfrase</button>
       </div>
 
-      <div class="gen-output">
-        <span class="pw-text placeholder" id="pwText">Trykk «Generer» for å lage et passord</span>
-        <button class="copybtn" id="copyBtn" aria-label="Kopiér passord" title="Kopiér" disabled>
+      <div class="gen-output" id="output" title="Klikk for å kopiere">
+        <span class="pw-text" id="pwText"></span>
+        <button class="copybtn" id="copyBtn" aria-label="Kopiér passord" title="Kopiér">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
         </button>
       </div>
 
-      <div class="meter gen-meter" id="meter" hidden>
+      <div class="meter gen-meter" id="meter">
         <div class="meter-track">
           <div class="meter-seg" data-i="0"></div>
           <div class="meter-seg" data-i="1"></div>
@@ -58,6 +58,10 @@
         <div class="meter-info">
           <span class="meter-label" id="strengthLabel"></span>
           <span class="meter-detail" id="strengthDetail"></span>
+        </div>
+        <div class="gen-crack" id="crackTime">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span id="crackText"></span>
         </div>
       </div>
 
@@ -93,6 +97,11 @@
               <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
               Symboler
             </label>
+            <label class="check">
+              <input type="checkbox" id="optNoAmbig" checked>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Unngå forvekselbare tegn
+            </label>
           </div>
         </div>
       </div>
@@ -102,9 +111,9 @@
         <div class="ctl-row">
           <div class="ctl-head">
             <label for="wordsRange">Antall ord</label>
-            <span class="val" id="wordsVal">4</span>
+            <span class="val" id="wordsVal">7</span>
           </div>
-          <input type="range" id="wordsRange" min="3" max="7" value="4" step="1">
+          <input type="range" id="wordsRange" min="4" max="10" value="7" step="1">
         </div>
         <div class="ctl-row">
           <div class="ctl-head"><label>Tilpass</label></div>
@@ -121,12 +130,23 @@
             </label>
           </div>
         </div>
-        <p class="hint">En passordfrase som «Tiger-Vindu-Kaffe-Fjell» er lett å huske, men lang nok til å være vanskelig å gjette. Jo flere ord, jo sterkere.</p>
+        <div class="ctl-row">
+          <div class="ctl-head"><label for="sepSelect">Skilletegn mellom ord</label></div>
+          <div class="checks" style="gap:8px">
+            <select id="sepSelect" style="font-family:'JetBrains Mono';font-size:14px;background:var(--input-bg);color:var(--ink);border:1px solid var(--line-strong);border-radius:9px;padding:10px 12px;cursor:pointer;outline:none">
+              <option value="-">Bindestrek &nbsp; tiger-vindu</option>
+              <option value=".">Punktum &nbsp; tiger.vindu</option>
+              <option value="_">Understrek &nbsp; tiger_vindu</option>
+              <option value="">Ingen &nbsp; tigervindu</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">En passordfrase som «Tiger-Vindu-Kaffe-Fjell» er lett å huske, men lang nok til å være vanskelig å gjette. Jo flere ord, jo sterkere. Sju ord eller mer gir et svært sterkt resultat.</p>
       </div>
 
       <button class="btn block genbtn" id="genBtn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-        Generer
+        Generer nytt
       </button>
     </div>
   </div>
@@ -159,46 +179,68 @@
 <footer>
   <div class="wrap">
     <p class="note">
-      <b>Prototype / porteføljeprosjekt.</b> Passordene lages med nettleserens innebygde kryptografisk sikre tilfeldighetskilde (Web Crypto). Ingenting sendes til en server, og ingenting lagres. Vil du sjekke om et passord allerede er lekket, kan du bruke <a href="index.html">forsiden</a>.
+      <b>Prototype / porteføljeprosjekt.</b> Passordene lages med nettleserens innebygde kryptografisk sikre tilfeldighetskilde (Web Crypto), uten skjevhet i utvalget. Ingenting sendes til en server, og ingenting lagres. Tiden for å gjette er et grovt anslag basert på en rask offline-angriper som prøver ti milliarder forslag i sekundet. Vil du sjekke om et passord allerede er lekket, kan du bruke <a href="index.html">forsiden</a>.
     </p>
   </div>
 </footer>
 
 <script src="nav.js"></script>
 <script>
-// ---- Norske ord til passordfraser ----
-const WORDS = [
-  'tiger','vindu','kaffe','fjell','elv','skog','måne','sol','regn','snø','vind','torden','lyn','stjerne','himmel',
-  'hund','katt','rev','ulv','bjørn','elg','hjort','hare','ekorn','pinnsvin','sel','hval','ørn','ugle','svane',
-  'laks','torsk','krabbe','reke','måke','fisk','frosk','bie','maur','sommerfugl',
-  'brød','ost','smør','melk','honning','eple','pære','plomme','bær','sopp','potet','gulrot','løk','sukker','salt',
-  'bord','stol','seng','lampe','speil','teppe','pute','klokke','bok','penn','nøkkel','dør','trapp','tak','gulv',
-  'sykkel','bil','båt','tog','buss','fly','vei','bro','gate','torg','hus','hytte','låve','brygge','fyrtårn',
-  'fjord','øy','strand','sand','stein','klippe','grotte','foss','innsjø','myr','eng','åker','hage','blomst','tre',
-  'gran','furu','bjørk','eik','lønn','rose','tulipan','løvetann','kløver','mose',
-  'jakke','genser','sokk','sko','lue','vott','skjerf','bukse','skjorte','belte',
-  'gitar','fiolin','trommer','piano','fløyte','sang','dans','farge','tegning','bilde',
-  'fjær','horn','klo','pels','hale','vinge','nebb','tann','øye','pote',
-  'ild','gnist','flamme','damp','tåke','dugg','frost','is','glød','skygge',
-  'konge','ridder','drage','troll','nisse','heks','kjempe','alv','skatt','sverd',
-  'anker','seil','kompass','kart','tønne','flagg','mast','ror','åre','knute',
-  'eple','kanel','vanilje','sjokolade','karamell','vaffel','bolle','kake','pannekake','syltetøy',
-  'måke','spurv','kråke','due','hane','høne','and','gås','kalkun','påfugl',
-  'vinter','vår','sommer','høst','morgen','kveld','natt','dag','time','minutt'
-];
+// ---- Norske ord til passordfraser (dedupliseres ved lasting) ----
+const WORDS = [...new Set([
+  // dyr
+  'tiger','løve','elefant','sjiraff','sebra','ulv','rev','bjørn','elg','hjort','rådyr','hare','ekorn','pinnsvin','grevling','mår','oter','bever','mus','rotte','flaggermus','hund','katt','hest','ku','gris','sau','geit','kanin','hane','høne','kylling','and','gås','kalkun','due','spurv','kråke','skjære','måke','ørn','hauk','ugle','svane','stork','svale','trost','meis','gjøk','hakkespett','struts','pingvin','papegøye','påfugl','flamingo','krokodille','slange','øgle','skilpadde','frosk','padde','salamander','hval','delfin','sel','hai','blekksprut','manet','krabbe','hummer','reke','østers','musling','laks','ørret','torsk','sild','makrell','ål','gjedde','abbor','bie','veps','humle','maur','edderkopp','sommerfugl','møll','bille','marihøne','øyenstikker','gresshoppe','snegle','mark','larve',
+  // landskap og natur
+  'fjell','dal','slette','skog','eng','mark','åker','myr','hei','vidde','bre','foss','elv','bekk','innsjø','tjern','dam','fjord','vik','bukt','sund','øy','holme','skjær','strand','sand','grus','stein','berg','klippe','hule','grotte','kløft','juv','topp','ås','kolle','haug','voll','lysning','sti',
+  // vær og himmel
+  'sol','måne','stjerne','himmel','sky','regn','snø','hagl','sludd','vind','storm','orkan','bris','torden','lyn','tåke','dis','dugg','frost','rim','is','regnbue','nordlys','soloppgang','solnedgang','skumring','gry',
+  // planter og trær
+  'tre','busk','gran','furu','bjørk','eik','lønn','alm','ask','osp','rogn','hassel','einer','selje','pil','kastanje','blomst','rose','tulipan','lilje','nellik','krokus','påskelilje','løvetann','kløver','prestekrage','blåklokke','hvitveis','blåveis','fiol','valmue','solsikke','mose','lav','gress','siv','kratt','hekk','grein','kvist','blad','knopp','frø','rot','bark','sopp','kantarell',
+  // mat og drikke
+  'brød','bolle','kake','vaffel','pannekake','lefse','ost','smør','melk','fløte','rømme','egg','skinke','pølse','biff','kjøtt','fisk','suppe','grøt','ris','pasta','potet','gulrot','kålrot','løk','hvitløk','tomat','agurk','salat','kål','brokkoli','erter','bønner','mais','eple','pære','plomme','kirsebær','jordbær','bringebær','blåbær','tyttebær','multe','banan','appelsin','sitron','drue','melon','fersken','honning','sukker','salt','pepper','kanel','vanilje','sjokolade','karamell','lakris','syltetøy','kaffe','kakao','juice','saft','vann','brus',
+  // hjem og ting
+  'bord','stol','benk','sofa','seng','skap','hylle','kommode','speil','lampe','lykt','teppe','pute','dyne','laken','gardin','klokke','kalender','bok','blad','avis','penn','blyant','viskelær','saks','lim','nøkkel','lås','hengelås','dør','vindu','trapp','gulv','tak','vegg','pipe','ovn','peis','komfyr','vask','kran','dusj','badekar','kost','bøtte','spann','kurv','eske','koffert','sekk','veske','lommebok','paraply','briller',
+  // verktøy
+  'hammer','sag','øks','spiker','skrue','tang','kniv','gaffel','skje','tallerken','kopp','glass','krus','mugge','kjele','panne','gryte','vekt','bor','mutter','spade','rake','trillebår','stige',
+  // transport
+  'bil','sykkel','motorsykkel','buss','lastebil','traktor','tog','trikk','bane','fly','helikopter','rakett','ballong','båt','ferge','seilbåt','robåt','kano','kajakk','skip','ubåt','anker','seil','mast','ror','åre','propell','hjul','ratt','motor','vei','gate','bro','tunnel','kryss','rundkjøring','fortau',
+  // steder og bygninger
+  'hus','hytte','slott','borg','tårn','fyrtårn','kirke','mølle','låve','fjøs','stall','skur','garasje','butikk','torg','marked','skole','bibliotek','museum','teater','stadion','brygge','kai','havn','stasjon','plass','park','hage','gård',
+  // kropp
+  'hode','hår','panne','øye','øre','nese','munn','tann','tunge','kinn','hake','hals','nakke','skulder','arm','albue','hånd','finger','tommel','negl','bryst','mage','rygg','hofte','kne','ankel','fot','tå','hjerte','hjerne','lunge',
+  // klær
+  'jakke','frakk','kåpe','genser','skjorte','bluse','vest','bukse','shorts','skjørt','kjole','sokk','strømpe','sko','støvel','tøffel','lue','hatt','caps','skjerf','votter','hanske','belte','slips','knapp',
+  // musikk og kunst
+  'gitar','fiolin','cello','bass','piano','trommer','fløyte','trompet','horn','harpe','fele','sang','melodi','rytme','dans','note','tone','maleri','tegning','pensel','farge','leire','statue','ramme',
+  // eventyr og fantasi
+  'konge','dronning','prins','prinsesse','ridder','drage','troll','nisse','heks','trollmann','kjempe','alv','dverg','havfrue','varulv','spøkelse','skatt','sverd','skjold','rustning','krone','septer','trolldom',
+  // abstrakte enkle ord
+  'drøm','tanke','minne','håp','glede','latter','smil','ord','navn','tall','gåte','eventyr','historie','lek','spill','gave','fest','reise','ferie','sommer','vinter','vår','høst','morgen','kveld','natt','dag','time','øyeblikk','skygge','lys','ild','flamme','gnist','røyk','damp','aske','glo'
+])].filter(w => !w.includes('-'));
 
-const SYMBOLS = '!@#$%&*?+-=';
-const LOWER = 'abcdefghijkmnopqrstuvwxyz';   // uten l for å unngå forveksling
-const UPPER = 'ABCDEFGHJKLMNPQRSTUVWXYZ';     // uten I og O
-const DIGITS = '23456789';                    // uten 0 og 1
+// tegnsett. Ekskluderbare forvekselbare tegn håndteres egne (l, I, O, 0, 1).
+const SET_FULL = {
+  lower:'abcdefghijklmnopqrstuvwxyz',
+  upper:'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  digit:'0123456789',
+  symbol:'!@#$%^&*?+-=_'
+};
+const SET_NOAMBIG = {
+  lower:'abcdefghijkmnopqrstuvwxyz',  // uten l
+  upper:'ABCDEFGHJKLMNPQRSTUVWXYZ',   // uten I og O
+  digit:'23456789',                   // uten 0 og 1
+  symbol:'!@#$%^&*?+-=_'
+};
 
 const pwText = document.getElementById('pwText');
+const output = document.getElementById('output');
 const copyBtn = document.getElementById('copyBtn');
 const genBtn = document.getElementById('genBtn');
 const meter = document.getElementById('meter');
 const segs = [...document.querySelectorAll('.meter-seg')];
 const strengthLabel = document.getElementById('strengthLabel');
 const strengthDetail = document.getElementById('strengthDetail');
+const crackText = document.getElementById('crackText');
 
 const modeRandom = document.getElementById('modeRandom');
 const modePhrase = document.getElementById('modePhrase');
@@ -209,6 +251,7 @@ const lengthRange = document.getElementById('lengthRange');
 const lengthVal = document.getElementById('lengthVal');
 const wordsRange = document.getElementById('wordsRange');
 const wordsVal = document.getElementById('wordsVal');
+const sepSelect = document.getElementById('sepSelect');
 
 const STRENGTH = [
   {label:'Veldig svakt', color:'var(--danger)'},
@@ -218,18 +261,17 @@ const STRENGTH = [
 ];
 
 let mode = 'random';
+let currentPassword = '';
 
-// kryptografisk sikkert tilfeldig heltall i [0, max)
+// kryptografisk sikkert tilfeldig heltall i [0, max) uten modulo-skjevhet
 function randInt(max){
   const arr = new Uint32Array(1);
-  const limit = Math.floor(0xFFFFFFFF / max) * max;
+  const limit = Math.floor(0x100000000 / max) * max;
   let x;
   do { crypto.getRandomValues(arr); x = arr[0]; } while(x >= limit);
   return x % max;
 }
-
 function pick(str){ return str[randInt(str.length)]; }
-
 function shuffle(arr){
   for(let i = arr.length - 1; i > 0; i--){
     const j = randInt(i + 1);
@@ -241,19 +283,16 @@ function shuffle(arr){
 // ---- generering: tilfeldig passord ----
 function makeRandom(){
   const len = +lengthRange.value;
-  const useUpper = document.getElementById('optUpper').checked;
-  const useNumber = document.getElementById('optNumber').checked;
-  const useSymbol = document.getElementById('optSymbol').checked;
+  const sets = document.getElementById('optNoAmbig').checked ? SET_NOAMBIG : SET_FULL;
+  const active = [sets.lower];
+  if(document.getElementById('optUpper').checked) active.push(sets.upper);
+  if(document.getElementById('optNumber').checked) active.push(sets.digit);
+  if(document.getElementById('optSymbol').checked) active.push(sets.symbol);
 
-  const sets = [LOWER];
-  if(useUpper) sets.push(UPPER);
-  if(useNumber) sets.push(DIGITS);
-  if(useSymbol) sets.push(SYMBOLS);
-
-  const pool = sets.join('');
+  const pool = active.join('');
   const chars = [];
   // garanter minst ett tegn fra hvert valgte sett
-  sets.forEach(s => chars.push(pick(s)));
+  active.forEach(s => chars.push(pick(s)));
   while(chars.length < len) chars.push(pick(pool));
   shuffle(chars);
 
@@ -267,6 +306,7 @@ function makePhrase(){
   const n = +wordsRange.value;
   const capital = document.getElementById('optCapital').checked;
   const addNumber = document.getElementById('optPhraseNumber').checked;
+  const sep = sepSelect.value;
 
   const chosen = [];
   for(let i = 0; i < n; i++){
@@ -274,39 +314,73 @@ function makePhrase(){
     if(capital) w = w.charAt(0).toUpperCase() + w.slice(1);
     chosen.push(w);
   }
-  let pw = chosen.join('-');
+  let pw = chosen.join(sep);
   let bits = n * Math.log2(WORDS.length);
   if(addNumber){
-    const num = 10 + randInt(90); // tosifret tall
-    pw += '-' + num;
+    const num = 10 + randInt(90); // tosifret tall, 10-99
+    pw += (sep || '-') + num;
     bits += Math.log2(90);
   }
   return {pw, bits};
 }
 
-function scoreFromBits(bits){
-  if(bits < 40) return 0;
-  if(bits < 60) return 1;
-  if(bits < 80) return 2;
+// ---- styrke og tid å gjette ----
+const GUESSES_PER_SEC = 1e10;       // rask offline-angriper
+const SECOND = 1, MINUTE = 60, HOUR = 3600, DAY = 86400, MONTH = 2629800, YEAR = 31557600;
+
+function humanTime(seconds){
+  if(seconds < 1) return 'mindre enn ett sekund';
+  if(seconds < MINUTE) return Math.round(seconds) + ' sekunder';
+  if(seconds < HOUR) return Math.round(seconds/MINUTE) + ' minutter';
+  if(seconds < DAY) return Math.round(seconds/HOUR) + ' timer';
+  if(seconds < MONTH) return Math.round(seconds/DAY) + ' dager';
+  if(seconds < YEAR) return Math.round(seconds/MONTH) + ' måneder';
+  const years = seconds / YEAR;
+  if(years < 1000) return Math.round(years) + ' år';
+  if(years < 1e6) return 'tusenvis av år';
+  if(years < 1e9) return 'millioner av år';
+  if(years < 1e12) return 'milliarder av år';
+  return 'praktisk talt evig';
+}
+
+function scoreFromTime(seconds){
+  if(seconds < DAY) return 0;
+  if(seconds < YEAR) return 1;
+  if(seconds / YEAR < 100) return 2;
   return 3;
 }
 
-function renderMeter(bits){
-  meter.hidden = false;
-  const score = scoreFromBits(bits);
+function renderStrength(bits){
+  // gjennomsnittlig antall forsøk er halvparten av søkerommet
+  const seconds = Math.pow(2, bits - 1) / GUESSES_PER_SEC;
+  const score = scoreFromTime(seconds);
   segs.forEach((s,i)=>{ s.style.background = i <= score ? STRENGTH[score].color : 'var(--line)'; });
   strengthLabel.textContent = STRENGTH[score].label;
   strengthLabel.style.color = STRENGTH[score].color;
   strengthDetail.textContent = `~${Math.round(bits)} bit entropi`;
+  crackText.innerHTML = `Anslått tid å gjette: <b>${humanTime(seconds)}</b>`;
+}
+
+// ---- visning med fargekoding ----
+function esc(c){ return c.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function colorize(pw){
+  return [...pw].map(c=>{
+    if(/[0-9]/.test(c)) return `<span class="d">${c}</span>`;
+    if(/[a-zæøåA-ZÆØÅ]/.test(c)) return esc(c);
+    return `<span class="s">${esc(c)}</span>`;
+  }).join('');
 }
 
 function generate(){
   const {pw, bits} = mode === 'random' ? makeRandom() : makePhrase();
-  pwText.textContent = pw;
+  currentPassword = pw;
+  pwText.innerHTML = colorize(pw);
   pwText.classList.remove('placeholder');
-  copyBtn.disabled = false;
+  renderStrength(bits);
   resetCopy();
-  renderMeter(bits);
+  output.classList.remove('flash');
+  void output.offsetWidth; // tving omstart av animasjonen
+  output.classList.add('flash');
 }
 
 // ---- kopiering ----
@@ -314,22 +388,21 @@ function resetCopy(){
   copyBtn.classList.remove('copied');
   copyBtn.setAttribute('title','Kopiér');
 }
-
-copyBtn.addEventListener('click', async ()=>{
-  const text = pwText.textContent;
-  if(!text) return;
+async function copyPassword(){
+  if(!currentPassword) return;
   try{
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(currentPassword);
   }catch(e){
-    // fallback for eldre nettlesere
     const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select();
+    ta.value = currentPassword; document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
   }
   copyBtn.classList.add('copied');
   copyBtn.setAttribute('title','Kopiert!');
   setTimeout(resetCopy, 1600);
-});
+}
+copyBtn.addEventListener('click', (e)=>{ e.stopPropagation(); copyPassword(); });
+output.addEventListener('click', copyPassword);
 
 // ---- modus-bytte ----
 function setMode(m){
@@ -346,11 +419,12 @@ function setMode(m){
 modeRandom.addEventListener('click', ()=>setMode('random'));
 modePhrase.addEventListener('click', ()=>setMode('phrase'));
 
-// ---- glidebrytere ----
+// ---- glidebrytere og valg ----
 lengthRange.addEventListener('input', ()=>{ lengthVal.textContent = lengthRange.value; generate(); });
 wordsRange.addEventListener('input', ()=>{ wordsVal.textContent = wordsRange.value; generate(); });
+sepSelect.addEventListener('change', generate);
 
-// pass på at minst én avhukingsboks i tillegg til små bokstaver er aktiv
+// regenerer når avhukingsbokser endres (unntatt den deaktiverte for små bokstaver)
 [...document.querySelectorAll('#randomControls input[type=checkbox]:not([disabled]), #phraseControls input[type=checkbox]')]
   .forEach(cb => cb.addEventListener('change', generate));
 

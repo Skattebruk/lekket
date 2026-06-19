@@ -138,9 +138,13 @@ footer a{color:var(--accent-deep)}
 .modes button:hover{color:var(--ink)}
 .modes button.active{background:var(--accent);color:#fff}
 
-.gen-output{position:relative;background:var(--input-bg);border:1.5px solid var(--line-strong);border-radius:var(--r);padding:18px 56px 18px 18px;min-height:62px;display:flex;align-items:center}
+.gen-output{position:relative;background:var(--input-bg);border:1.5px solid var(--line-strong);border-radius:var(--r);padding:18px 56px 18px 18px;min-height:62px;display:flex;align-items:center;transition:border-color .15s}
 .gen-output .pw-text{font-family:'JetBrains Mono';font-size:19px;font-weight:600;letter-spacing:.01em;word-break:break-all;line-height:1.5;color:var(--ink)}
 .gen-output .pw-text.placeholder{color:var(--ink-soft);font-weight:500;font-size:15px}
+.gen-output .pw-text .d{color:var(--accent-deep)}   /* tall */
+.gen-output .pw-text .s{color:var(--warn)}           /* symboler */
+.gen-output.flash{animation:flashpw .45s ease}
+@keyframes flashpw{0%{background:var(--accent-soft);border-color:var(--accent)}100%{background:var(--input-bg);border-color:var(--line-strong)}}
 .copybtn{position:absolute;right:9px;top:50%;transform:translateY(-50%);border:1px solid var(--line-strong);background:var(--surface);cursor:pointer;padding:9px;color:var(--ink-soft);border-radius:9px;transition:.15s;display:flex}
 .copybtn:hover{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--accent)}
 .copybtn svg{width:18px;height:18px;display:block}
@@ -170,6 +174,9 @@ input[type=range]:focus-visible{box-shadow:0 0 0 4px var(--accent-soft)}
 .check.disabled{opacity:.5;cursor:not-allowed}
 
 .gen-meter{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.gen-crack{font-size:12.5px;color:var(--ink-soft);margin-top:11px;display:flex;align-items:flex-start;gap:8px;font-family:'JetBrains Mono'}
+.gen-crack svg{width:14px;height:14px;flex:none;color:var(--accent-deep);margin-top:2px}
+.gen-crack b{color:var(--ink);font-weight:600}
 .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px}
 .genbtn{margin-top:22px}
 
