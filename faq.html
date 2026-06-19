@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ · Lekket?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap navrow">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#7C71F2"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#EAEBF7" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
+      Lekket?
+    </a>
+    <button class="navtoggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navlinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="navlinks" id="navlinks">
+      <a href="index.html">Sjekk passord</a>
+      <a href="generator.html">Generator</a>
+      <a href="faq.html" class="active" aria-current="page">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Spørsmål og svar</div>
+    <h1>Vanlige spørsmål</h1>
+    <p class="lead">Enkle svar på det folk lurer mest på. Du trenger ingen forkunnskaper om data for å lese dette.</p>
+  </div>
+
+  <section class="block" style="padding-top:24px">
+    <div class="faq-list">
+
+      <details class="qa" open>
+        <summary>
+          Er det trygt å skrive inn passordet mitt her?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="answer">
+          <p>Ja. Passordet ditt forlater aldri enheten din. Det blir aldri sendt til oss eller noen andre.</p>
+          <p>Tenk på det som en forseglet konvolutt. I stedet for å sende hele brevet, river vi bare av et lite hjørne og spør: «Finnes det noen brev som starter slik?» Hjørnet alene passer til hundrevis av forskjellige brev, så ingen kan vite hva som står inni nettopp ditt.</p>
+          <div class="envelope">
+            <svg viewBox="0 0 120 96" fill="none" aria-hidden="true">
+              <rect x="10" y="20" width="100" height="66" rx="8" fill="#1B1D3A" stroke="#3C3E70" stroke-width="2"/>
+              <path d="M12 26 60 58 108 26" fill="none" stroke="#3C3E70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="60" cy="50" r="9" fill="#7C71F2"/>
+              <path d="M60 46v8M56 50h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+              <path d="M110 20 92 20 110 38Z" fill="#13142A" stroke="#7C71F2" stroke-width="2" stroke-linejoin="round" stroke-dasharray="3 3"/>
+            </svg>
+            <div class="cap"><b>Bare et hjørne sendes.</b> Resten av «brevet», altså passordet ditt, blir værende forseglet på din egen enhet og sjekkes der.</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>
+          Hva er en datalekkasje?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="answer">
+          <p>En datalekkasje er når informasjon som skulle vært hemmelig kommer på avveie. Det skjer som regel når noen bryter seg inn i datasystemene til en nettbutikk, et spill eller en annen tjeneste, og stjeler brukernes opplysninger.</p>
+          <p>Blant det som ofte havner på avveie er e-postadresser og passord. Etterpå blir disse listene gjerne delt eller solgt mellom kriminelle, og kan dukke opp mange år senere.</p>
+          <p>Derfor er det lurt å bruke et nytt passord for hver tjeneste. Da rammer en lekkasje ett sted bare den ene kontoen, og ikke alt det andre du har.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>
+          Hva betyr det at passordet er funnet X ganger?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="answer">
+          <p>Tallet forteller hvor mange ganger akkurat det passordet har dukket opp i kjente lekkasjer fra mange forskjellige tjenester til sammen.</p>
+          <p>Det betyr <b>ikke</b> at noen har brutt seg inn på din konto. Men det betyr at passordet finnes på lister som kriminelle bruker når de prøver å gjette seg inn. Jo høyere tallet er, jo mer kjent og utsatt er passordet.</p>
+          <p>Et passord som er funnet tusenvis av ganger bør du slutte å bruke, uansett hvor du bruker det. Et passord som ikke er funnet i det hele tatt er tryggere, men husk at det fortsatt må være langt og unikt.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>
+          Hva gjør jeg hvis passordet mitt er lekket?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="answer">
+          <p>Ingen grunn til panikk, men du bør handle. Slik gjør du det:</p>
+          <ul>
+            <li><b>Bytt passordet</b> på alle tjenester der du har brukt det.</li>
+            <li><b>Lag et nytt og unikt passord</b> til hver tjeneste. <a href="generator.html">Generatoren</a> kan hjelpe deg.</li>
+            <li><b>Slå på to-trinns bekreftelse</b> der det er mulig. Da må man ha mer enn bare passordet for å logge inn.</li>
+            <li><b>Vurder en passordmanager</b> som husker alle passordene for deg, så du bare trenger å huske ett.</li>
+          </ul>
+          <p>Det viktigste er å ikke gjenbruke det lekkede passordet noe sted igjen.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>
+          Hvordan lager jeg et sterkt passord?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="answer">
+          <p>Et sterkt passord trenger ikke være vanskelig å huske. Det viktigste er at det er langt og unikt.</p>
+          <ul>
+            <li><b>Lengde er viktigst.</b> Sikt på minst 15 tegn. En lang passordfrase som «Tiger-Vindu-Kaffe-Fjell» er både lett å huske og vanskelig å gjette.</li>
+            <li><b>Bruk det bare ett sted.</b> Aldri det samme passordet på flere tjenester.</li>
+            <li><b>Bland gjerne inn</b> store og små bokstaver, tall og tegn hvis du lager et tilfeldig passord.</li>
+            <li><b>Unngå det personlige.</b> Navn, fødselsdato og favorittlag er lett å gjette.</li>
+          </ul>
+          <p>Vil du slippe å finne på et selv, kan <a href="generator.html">generatoren</a> lage et sterkt passord for deg på sekundet.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>
+          Lagrer dere passordet mitt?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="answer">
+          <p>Nei. Vi lagrer ingenting, og vi ser aldri passordet ditt i utgangspunktet.</p>
+          <p>Alt skjer i nettleseren din. Når du sjekker et passord, regnes det om til en kode lokalt på enheten, og bare en liten anonym bit av den koden brukes til selve oppslaget. Selve passordet blir aldri sendt noe sted og blir aldri skrevet ned hos oss.</p>
+          <p>Vi har rett og slett ikke noe sted å lagre det, og vil ikke ha det heller. Det tryggeste passordet for oss er det vi aldri får se.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="note">
+      <b>Prototype / porteføljeprosjekt.</b> Lekket er en demonstrasjon av personvernvennlig passordsjekk. Lekkasjedataene kommer fra det åpne <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener">Pwned Passwords</a>-API-et. Har du flere spørsmål, finner du mer på <a href="index.html">forsiden</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>

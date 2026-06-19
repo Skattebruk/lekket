@@ -3,136 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lekket? — sjekk om passordet ditt er trygt</title>
+<title>Lekket? Sjekk om passordet ditt er trygt</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#13142A;
-    --surface:#1B1D3A;
-    --input-bg:#11122A;
-    --ink:#EAEBF7;
-    --ink-soft:#9FA2C4;
-    --line:#2C2E55;
-    --line-strong:#3C3E70;
-    --accent:#7C71F2;
-    --accent-deep:#B7AFFF;
-    --accent-soft:#262455;
-
-    --safe:#34D27B;  --safe-bg:#16301F;
-    --warn:#F2B341;  --warn-bg:#33260F;
-    --danger:#FF5C55; --danger-bg:#3A1717;
-
-    --r:12px;
-    --maxw:920px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;color-scheme:dark}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif}
-  .mono{font-family:'JetBrains Mono',monospace}
-  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep)}
-
-  /* nav */
-  header.nav{padding:18px 0;border-bottom:1px solid var(--line)}
-  .navrow{display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:21px;letter-spacing:-0.02em}
-  .brand svg{width:24px;height:24px;flex:none}
-  .navtag{font-size:12.5px;color:var(--ink-soft);font-family:'JetBrains Mono';display:flex;align-items:center;gap:7px}
-  .navtag .lock{width:7px;height:7px;border-radius:50%;background:var(--safe)}
-  @media(max-width:560px){.navtag{display:none}}
-
-  /* hero / tool */
-  .hero{padding:46px 0 10px;text-align:center}
-  .hero h1{font-size:clamp(30px,5.5vw,46px);font-weight:700;letter-spacing:-0.03em;line-height:1.05}
-  .hero p.lead{font-size:17px;color:var(--ink-soft);max-width:50ch;margin:16px auto 0}
-
-  .tool{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;margin:30px 0 0;box-shadow:0 1px 0 rgba(0,0,0,.02)}
-  .field{position:relative}
-  .field label{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;text-align:left}
-  .field input{width:100%;font-family:'JetBrains Mono';font-size:18px;letter-spacing:.02em;padding:15px 52px 15px 16px;border:1.5px solid var(--line-strong);border-radius:var(--r);background:var(--input-bg);color:var(--ink);outline:none;transition:.15s}
-  .field input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
-  .toggle{position:absolute;right:8px;top:34px;border:0;background:transparent;cursor:pointer;padding:8px;color:var(--ink-soft);border-radius:8px}
-  .toggle:hover{background:var(--accent-soft);color:var(--accent-deep)}
-
-  /* strength meter */
-  .meter{margin-top:18px}
-  .meter-track{height:8px;border-radius:100px;background:var(--line);overflow:hidden;display:flex;gap:3px;padding:0}
-  .meter-seg{flex:1;background:var(--line);transition:background .25s}
-  .meter-info{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px}
-  .meter-label{font-family:'Space Grotesk';font-weight:600;font-size:14.5px}
-  .meter-detail{font-size:12.5px;color:var(--ink-soft);font-family:'JetBrains Mono'}
-  .meter-why{display:none;margin-top:9px;font-size:13px;color:var(--danger);text-align:left;gap:7px;align-items:flex-start}
-  .meter-why.show{display:flex}
-  .meter-why svg{width:15px;height:15px;flex:none;margin-top:2px}
-
-  .checkbtn{width:100%;margin-top:18px;font-family:'Space Grotesk';font-weight:600;font-size:16px;padding:14px;border:0;border-radius:var(--r);background:var(--accent);color:#fff;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:9px}
-  .checkbtn:hover{background:var(--accent-deep)}
-  .checkbtn:disabled{opacity:.45;cursor:default}
-
-  .privacy-note{margin-top:14px;font-size:12.5px;color:var(--ink-soft);text-align:center;display:flex;align-items:center;justify-content:center;gap:7px}
-  .privacy-note svg{width:13px;height:13px;flex:none;color:var(--safe)}
-
-  /* result */
-  .result{margin-top:18px;border-radius:var(--r);padding:0;max-height:0;overflow:hidden;transition:max-height .35s ease}
-  .result.show{max-height:600px}
-  .result-inner{padding:20px;border:1.5px solid;border-radius:var(--r)}
-  .result.safe .result-inner{border-color:var(--safe);background:var(--safe-bg)}
-  .result.danger .result-inner{border-color:var(--danger);background:var(--danger-bg)}
-  .result.err .result-inner{border-color:var(--line-strong);background:var(--surface)}
-  .result h3{font-size:19px;font-weight:700;display:flex;align-items:center;gap:10px;letter-spacing:-0.01em}
-  .result .rbody{font-size:14.5px;margin-top:8px;color:var(--ink)}
-  .result .rbody b{font-family:'Space Grotesk'}
-  .badge{font-family:'JetBrains Mono';font-size:12px;font-weight:600;padding:3px 9px;border-radius:100px}
-  .result.safe .badge{background:var(--safe);color:#fff}
-  .result.danger .badge{background:var(--danger);color:#fff}
-
-  /* k-anonymity visualization */
-  .kviz{margin-top:16px;background:var(--input-bg);border:1px dashed var(--line-strong);border-radius:10px;padding:14px}
-  .kviz .ktitle{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:9px}
-  .hashline{font-family:'JetBrains Mono';font-size:13px;word-break:break-all;line-height:1.7}
-  .hashline .sent{background:var(--accent);color:#fff;padding:1px 3px;border-radius:3px;font-weight:600}
-  .hashline .kept{color:var(--ink-soft)}
-  .kflow{display:flex;align-items:center;gap:8px;margin-top:11px;font-size:11.5px;color:var(--ink-soft);flex-wrap:wrap;font-family:'JetBrains Mono'}
-  .kflow .chip{background:var(--accent-soft);color:var(--accent-deep);padding:3px 8px;border-radius:6px;font-weight:600}
-  .kflow .arrow{color:var(--line-strong)}
-
-  /* sections */
-  section.block{padding:48px 0}
-  .block h2{font-size:clamp(22px,4vw,28px);font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
-  .block .sub{color:var(--ink-soft);font-size:14.5px;max-width:54ch;margin-bottom:26px}
-
-  .steps3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-  .stepcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
-  .stepcard .num{font-family:'JetBrains Mono';font-size:12px;font-weight:600;color:var(--accent-deep);background:var(--accent-soft);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;margin-bottom:12px}
-  .stepcard h3{font-size:16px;font-weight:600;margin-bottom:5px}
-  .stepcard p{font-size:13.5px;color:var(--ink-soft)}
-
-  .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-  .tip{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
-  .tip .ic{width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent-deep);flex:none;display:grid;place-items:center;font-weight:700;font-family:'Space Grotesk';font-size:13px}
-  .tip p{font-size:13.5px}
-  .tip p b{font-family:'Space Grotesk';font-weight:600}
-
-  footer{border-top:1px solid var(--line);padding:30px 0 60px;margin-top:20px}
-  footer .note{font-size:12.5px;color:var(--ink-soft);max-width:62ch}
-  footer .note b{color:var(--ink)}
-  footer a{color:var(--accent-deep)}
-  .spin{display:inline-block;width:15px;height:15px;border:2px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
-  @keyframes sp{to{transform:rotate(360deg)}}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap navrow">
-    <div class="brand">
+    <a class="brand" href="index.html">
       <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#7C71F2"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#EAEBF7" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
       Lekket?
-    </div>
-    <div class="navtag"><span class="lock"></span>Passordet forlater aldri enheten din</div>
+    </a>
+    <button class="navtoggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navlinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="navlinks" id="navlinks">
+      <a href="index.html" class="active" aria-current="page">Sjekk passord</a>
+      <a href="generator.html">Generator</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
   </div>
 </header>
 
@@ -140,7 +32,7 @@
 
   <div class="hero">
     <div class="eyebrow">Passordsikkerhet på norsk</div>
-    <h1>Er passordet ditt sterkt nok — og allerede lekket?</h1>
+    <h1>Er passordet ditt sterkt nok, og er det allerede lekket?</h1>
     <p class="lead">Sjekk styrken på passordet ditt, og om det finnes i kjente datalekkasjer. Alt skjer på din egen enhet. Vi ser aldri passordet ditt.</p>
 
     <div class="tool">
@@ -160,7 +52,7 @@
           <div class="meter-seg" data-i="3"></div>
         </div>
         <div class="meter-info">
-          <span class="meter-label" id="strengthLabel">—</span>
+          <span class="meter-label" id="strengthLabel"></span>
           <span class="meter-detail" id="strengthDetail"></span>
         </div>
         <div class="meter-why" id="strengthWhy">
@@ -169,11 +61,11 @@
         </div>
       </div>
 
-      <button class="checkbtn" id="checkBtn" disabled>Sjekk om passordet er lekket</button>
+      <button class="btn block checkbtn" id="checkBtn" disabled>Sjekk om passordet er lekket</button>
 
       <div class="privacy-note" id="privacy">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-        Kun de 5 første tegnene av en kryptografisk hash sendes — aldri passordet selv.
+        Kun de 5 første tegnene av en kryptografisk hash sendes. Aldri passordet selv.
       </div>
 
       <div class="result" id="result">
@@ -185,7 +77,7 @@
   <section class="block">
     <div class="eyebrow">Personvern</div>
     <h2>Hvordan kan vi sjekke uten å se passordet?</h2>
-    <p class="sub">Teknikken heter <b>k-anonymitet</b>. Den lar oss spørre en lekkasjedatabase om passordet ditt, uten at passordet — eller en gjenkjennelig del av det — noen gang forlater enheten din.</p>
+    <p class="sub">Teknikken heter <b>k-anonymitet</b>. Den lar oss spørre en lekkasjedatabase om passordet ditt, uten at passordet, eller en gjenkjennelig del av det, noen gang forlater enheten din.</p>
     <div class="steps3">
       <div class="stepcard">
         <div class="num">1</div>
@@ -195,7 +87,7 @@
       <div class="stepcard">
         <div class="num">2</div>
         <h3>Kun 5 tegn sendes</h3>
-        <p>Bare de fem første tegnene av hashen sendes til lekkasjetjenesten. De passer til hundrevis av ulike passord — umulig å vite hvilket som er ditt.</p>
+        <p>Bare de fem første tegnene av hashen sendes til lekkasjetjenesten. De passer til hundrevis av ulike passord, så det er umulig å vite hvilket som er ditt.</p>
       </div>
       <div class="stepcard">
         <div class="num">3</div>
@@ -208,7 +100,7 @@
   <section class="block" style="padding-top:0">
     <div class="eyebrow">Råd</div>
     <h2>Slik lager du et passord som holder</h2>
-    <p class="sub">Et sterkt passord trenger ikke være kryptisk. Det trenger å være langt og unikt.</p>
+    <p class="sub">Et sterkt passord trenger ikke være kryptisk. Det trenger å være langt og unikt. Trenger du hjelp, kan <a href="generator.html" style="color:var(--accent-deep)">generatoren</a> lage et for deg.</p>
     <div class="tips">
       <div class="tip"><div class="ic">1</div><p><b>Lengde slår alt.</b> En lang setning er sterkere enn et kort rot av tegn. Sikt på minst 15 tegn.</p></div>
       <div class="tip"><div class="ic">2</div><p><b>Unikt per tjeneste.</b> Gjenbruk er den vanligste grunnen til at kontoer kapres. Ett lekket passord skal ikke åpne alt.</p></div>
@@ -222,11 +114,12 @@
 <footer>
   <div class="wrap">
     <p class="note">
-      <b>Prototype / porteføljeprosjekt.</b> Lekkasjesjekken bruker det åpne <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener">Pwned Passwords</a>-API-et fra Have I Been Pwned med k-anonymitet. Passordet behandles kun lokalt i nettleseren via Web Crypto (SHA-1), lagres aldri, og sendes aldri i sin helhet. Tallene viser hvor mange ganger et passord har dukket opp i kjente datalekkasjer — ikke om akkurat din konto er rammet.
+      <b>Prototype / porteføljeprosjekt.</b> Lekkasjesjekken bruker det åpne <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener">Pwned Passwords</a>-API-et fra Have I Been Pwned med k-anonymitet. Passordet behandles kun lokalt i nettleseren via Web Crypto (SHA-1), lagres aldri, og sendes aldri i sin helhet. Tallene viser hvor mange ganger et passord har dukket opp i kjente datalekkasjer, ikke om akkurat din konto er rammet.
     </p>
   </div>
 </footer>
 
+<script src="nav.js"></script>
 <script>
 const pw = document.getElementById('pw');
 const meter = document.getElementById('meter');
@@ -292,17 +185,17 @@ function isKeyboardRun(p){
 function weaknessReason(p){
   const lower = p.toLowerCase();
   if(COMMON_PASSWORDS.has(lower))
-    return 'Dette er ett av verdens mest brukte passord — det knekkes på et øyeblikk.';
+    return 'Dette er ett av verdens mest brukte passord, og knekkes på et øyeblikk.';
   // vanlig ord etterfulgt av tall/enkelt tegn, f.eks. «passord123»
   const base = lower.replace(/[0-9!#@$._\-]+$/, '');
   if(base.length >= 3 && base !== lower && COMMON_PASSWORDS.has(base))
-    return 'Dette er et vanlig ord med tall på slutten — blant de aller første mønstrene angripere prøver.';
+    return 'Dette er et vanlig ord med tall på slutten, blant de aller første mønstrene angripere prøver.';
   if(isRepeatedChar(p))
     return 'Dette er bare det samme tegnet gjentatt.';
   if(isSequential(p))
     return 'Dette er en enkel rekkefølge (som «123456» eller «abcdef»).';
   if(isKeyboardRun(p))
-    return 'Dette er et tastaturmønster (som «qwerty») — kjent for alle som gjetter passord.';
+    return 'Dette er et tastaturmønster (som «qwerty»), kjent for alle som gjetter passord.';
   return null;
 }
 
@@ -407,13 +300,13 @@ checkBtn.addEventListener('click', async ()=>{
     if(count > 0){
       showResult('danger', `
         <h3><span class="badge">Lekket</span> Dette passordet er på avveie</h3>
-        <div class="rbody">Passordet er funnet <b>${count.toLocaleString('nb-NO')}</b> ganger i kjente datalekkasjer. Bytt det overalt du bruker det — og ikke bruk det igjen.</div>
+        <div class="rbody">Passordet er funnet <b>${count.toLocaleString('nb-NO')}</b> ganger i kjente datalekkasjer. Bytt det overalt du bruker det, og ikke bruk det igjen.</div>
         ${kviz(prefix, suffix)}
       `);
     } else {
       showResult('safe', `
         <h3><span class="badge">Ikke funnet</span> Ingen treff i lekkasjedatabasen</h3>
-        <div class="rbody">Passordet finnes ikke i kjente lekkasjer. Det betyr ikke at det er sterkt — sjekk styrkemåleren over, og bruk passordet kun ett sted.</div>
+        <div class="rbody">Passordet finnes ikke i kjente lekkasjer. Det betyr ikke at det er sterkt. Sjekk styrkemåleren over, og bruk passordet kun ett sted.</div>
         ${kviz(prefix, suffix)}
       `);
     }

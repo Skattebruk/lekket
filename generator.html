@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator · Lekket?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap navrow">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#7C71F2"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#EAEBF7" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
+      Lekket?
+    </a>
+    <button class="navtoggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navlinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="navlinks" id="navlinks">
+      <a href="index.html">Sjekk passord</a>
+      <a href="generator.html" class="active" aria-current="page">Generator</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Lag et nytt passord</div>
+    <h1>Passordgenerator</h1>
+    <p class="lead">Lag et sterkt, tilfeldig passord, eller en passordfrase av norske ord som er lett å huske. Alt lages lokalt i nettleseren din og sendes ingen steder.</p>
+
+    <div class="tool">
+      <div class="modes" role="tablist">
+        <button id="modeRandom" class="active" role="tab" aria-selected="true">Tilfeldig passord</button>
+        <button id="modePhrase" role="tab" aria-selected="false">Passordfrase</button>
+      </div>
+
+      <div class="gen-output">
+        <span class="pw-text placeholder" id="pwText">Trykk «Generer» for å lage et passord</span>
+        <button class="copybtn" id="copyBtn" aria-label="Kopiér passord" title="Kopiér" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+        </button>
+      </div>
+
+      <div class="meter gen-meter" id="meter" hidden>
+        <div class="meter-track">
+          <div class="meter-seg" data-i="0"></div>
+          <div class="meter-seg" data-i="1"></div>
+          <div class="meter-seg" data-i="2"></div>
+          <div class="meter-seg" data-i="3"></div>
+        </div>
+        <div class="meter-info">
+          <span class="meter-label" id="strengthLabel"></span>
+          <span class="meter-detail" id="strengthDetail"></span>
+        </div>
+      </div>
+
+      <!-- Innstillinger: tilfeldig passord -->
+      <div class="controls" id="randomControls">
+        <div class="ctl-row">
+          <div class="ctl-head">
+            <label for="lengthRange">Lengde</label>
+            <span class="val" id="lengthVal">20</span>
+          </div>
+          <input type="range" id="lengthRange" min="8" max="40" value="20" step="1">
+        </div>
+        <div class="ctl-row">
+          <div class="ctl-head"><label>Inkluder</label></div>
+          <div class="checks">
+            <label class="check disabled" title="Små bokstaver er alltid med">
+              <input type="checkbox" id="optLower" checked disabled>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Små bokstaver
+            </label>
+            <label class="check">
+              <input type="checkbox" id="optUpper" checked>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Store bokstaver
+            </label>
+            <label class="check">
+              <input type="checkbox" id="optNumber" checked>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Tall
+            </label>
+            <label class="check">
+              <input type="checkbox" id="optSymbol" checked>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Symboler
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Innstillinger: passordfrase -->
+      <div class="controls" id="phraseControls" hidden>
+        <div class="ctl-row">
+          <div class="ctl-head">
+            <label for="wordsRange">Antall ord</label>
+            <span class="val" id="wordsVal">4</span>
+          </div>
+          <input type="range" id="wordsRange" min="3" max="7" value="4" step="1">
+        </div>
+        <div class="ctl-row">
+          <div class="ctl-head"><label>Tilpass</label></div>
+          <div class="checks">
+            <label class="check">
+              <input type="checkbox" id="optCapital" checked>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Stor forbokstav
+            </label>
+            <label class="check">
+              <input type="checkbox" id="optPhraseNumber" checked>
+              <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Legg til et tall
+            </label>
+          </div>
+        </div>
+        <p class="hint">En passordfrase som «Tiger-Vindu-Kaffe-Fjell» er lett å huske, men lang nok til å være vanskelig å gjette. Jo flere ord, jo sterkere.</p>
+      </div>
+
+      <button class="btn block genbtn" id="genBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        Generer
+      </button>
+    </div>
+  </div>
+
+  <section class="block">
+    <div class="eyebrow">Godt å vite</div>
+    <h2>Hvilken type bør jeg velge?</h2>
+    <p class="sub">Begge typene er sterke. Velg det som passer deg.</p>
+    <div class="steps3">
+      <div class="stepcard">
+        <div class="num">A</div>
+        <h3>Tilfeldig passord</h3>
+        <p>Best når du uansett lagrer passordet i en passordmanager og aldri trenger å skrive det inn for hånd.</p>
+      </div>
+      <div class="stepcard">
+        <div class="num">B</div>
+        <h3>Passordfrase</h3>
+        <p>Best når du må huske det selv, for eksempel hovedpassordet til passordmanageren eller PC-en din.</p>
+      </div>
+      <div class="stepcard">
+        <div class="num">!</div>
+        <h3>Uansett type</h3>
+        <p>Bruk et nytt og unikt passord for hver tjeneste. Da gjør en lekkasje ett sted ingen skade andre steder.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="note">
+      <b>Prototype / porteføljeprosjekt.</b> Passordene lages med nettleserens innebygde kryptografisk sikre tilfeldighetskilde (Web Crypto). Ingenting sendes til en server, og ingenting lagres. Vil du sjekke om et passord allerede er lekket, kan du bruke <a href="index.html">forsiden</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+// ---- Norske ord til passordfraser ----
+const WORDS = [
+  'tiger','vindu','kaffe','fjell','elv','skog','måne','sol','regn','snø','vind','torden','lyn','stjerne','himmel',
+  'hund','katt','rev','ulv','bjørn','elg','hjort','hare','ekorn','pinnsvin','sel','hval','ørn','ugle','svane',
+  'laks','torsk','krabbe','reke','måke','fisk','frosk','bie','maur','sommerfugl',
+  'brød','ost','smør','melk','honning','eple','pære','plomme','bær','sopp','potet','gulrot','løk','sukker','salt',
+  'bord','stol','seng','lampe','speil','teppe','pute','klokke','bok','penn','nøkkel','dør','trapp','tak','gulv',
+  'sykkel','bil','båt','tog','buss','fly','vei','bro','gate','torg','hus','hytte','låve','brygge','fyrtårn',
+  'fjord','øy','strand','sand','stein','klippe','grotte','foss','innsjø','myr','eng','åker','hage','blomst','tre',
+  'gran','furu','bjørk','eik','lønn','rose','tulipan','løvetann','kløver','mose',
+  'jakke','genser','sokk','sko','lue','vott','skjerf','bukse','skjorte','belte',
+  'gitar','fiolin','trommer','piano','fløyte','sang','dans','farge','tegning','bilde',
+  'fjær','horn','klo','pels','hale','vinge','nebb','tann','øye','pote',
+  'ild','gnist','flamme','damp','tåke','dugg','frost','is','glød','skygge',
+  'konge','ridder','drage','troll','nisse','heks','kjempe','alv','skatt','sverd',
+  'anker','seil','kompass','kart','tønne','flagg','mast','ror','åre','knute',
+  'eple','kanel','vanilje','sjokolade','karamell','vaffel','bolle','kake','pannekake','syltetøy',
+  'måke','spurv','kråke','due','hane','høne','and','gås','kalkun','påfugl',
+  'vinter','vår','sommer','høst','morgen','kveld','natt','dag','time','minutt'
+];
+
+const SYMBOLS = '!@#$%&*?+-=';
+const LOWER = 'abcdefghijkmnopqrstuvwxyz';   // uten l for å unngå forveksling
+const UPPER = 'ABCDEFGHJKLMNPQRSTUVWXYZ';     // uten I og O
+const DIGITS = '23456789';                    // uten 0 og 1
+
+const pwText = document.getElementById('pwText');
+const copyBtn = document.getElementById('copyBtn');
+const genBtn = document.getElementById('genBtn');
+const meter = document.getElementById('meter');
+const segs = [...document.querySelectorAll('.meter-seg')];
+const strengthLabel = document.getElementById('strengthLabel');
+const strengthDetail = document.getElementById('strengthDetail');
+
+const modeRandom = document.getElementById('modeRandom');
+const modePhrase = document.getElementById('modePhrase');
+const randomControls = document.getElementById('randomControls');
+const phraseControls = document.getElementById('phraseControls');
+
+const lengthRange = document.getElementById('lengthRange');
+const lengthVal = document.getElementById('lengthVal');
+const wordsRange = document.getElementById('wordsRange');
+const wordsVal = document.getElementById('wordsVal');
+
+const STRENGTH = [
+  {label:'Veldig svakt', color:'var(--danger)'},
+  {label:'Svakt',        color:'var(--danger)'},
+  {label:'Greit',        color:'var(--warn)'},
+  {label:'Sterkt',       color:'var(--safe)'},
+];
+
+let mode = 'random';
+
+// kryptografisk sikkert tilfeldig heltall i [0, max)
+function randInt(max){
+  const arr = new Uint32Array(1);
+  const limit = Math.floor(0xFFFFFFFF / max) * max;
+  let x;
+  do { crypto.getRandomValues(arr); x = arr[0]; } while(x >= limit);
+  return x % max;
+}
+
+function pick(str){ return str[randInt(str.length)]; }
+
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = randInt(i + 1);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ---- generering: tilfeldig passord ----
+function makeRandom(){
+  const len = +lengthRange.value;
+  const useUpper = document.getElementById('optUpper').checked;
+  const useNumber = document.getElementById('optNumber').checked;
+  const useSymbol = document.getElementById('optSymbol').checked;
+
+  const sets = [LOWER];
+  if(useUpper) sets.push(UPPER);
+  if(useNumber) sets.push(DIGITS);
+  if(useSymbol) sets.push(SYMBOLS);
+
+  const pool = sets.join('');
+  const chars = [];
+  // garanter minst ett tegn fra hvert valgte sett
+  sets.forEach(s => chars.push(pick(s)));
+  while(chars.length < len) chars.push(pick(pool));
+  shuffle(chars);
+
+  const pw = chars.slice(0, len).join('');
+  const bits = len * Math.log2(pool.length);
+  return {pw, bits};
+}
+
+// ---- generering: passordfrase ----
+function makePhrase(){
+  const n = +wordsRange.value;
+  const capital = document.getElementById('optCapital').checked;
+  const addNumber = document.getElementById('optPhraseNumber').checked;
+
+  const chosen = [];
+  for(let i = 0; i < n; i++){
+    let w = WORDS[randInt(WORDS.length)];
+    if(capital) w = w.charAt(0).toUpperCase() + w.slice(1);
+    chosen.push(w);
+  }
+  let pw = chosen.join('-');
+  let bits = n * Math.log2(WORDS.length);
+  if(addNumber){
+    const num = 10 + randInt(90); // tosifret tall
+    pw += '-' + num;
+    bits += Math.log2(90);
+  }
+  return {pw, bits};
+}
+
+function scoreFromBits(bits){
+  if(bits < 40) return 0;
+  if(bits < 60) return 1;
+  if(bits < 80) return 2;
+  return 3;
+}
+
+function renderMeter(bits){
+  meter.hidden = false;
+  const score = scoreFromBits(bits);
+  segs.forEach((s,i)=>{ s.style.background = i <= score ? STRENGTH[score].color : 'var(--line)'; });
+  strengthLabel.textContent = STRENGTH[score].label;
+  strengthLabel.style.color = STRENGTH[score].color;
+  strengthDetail.textContent = `~${Math.round(bits)} bit entropi`;
+}
+
+function generate(){
+  const {pw, bits} = mode === 'random' ? makeRandom() : makePhrase();
+  pwText.textContent = pw;
+  pwText.classList.remove('placeholder');
+  copyBtn.disabled = false;
+  resetCopy();
+  renderMeter(bits);
+}
+
+// ---- kopiering ----
+function resetCopy(){
+  copyBtn.classList.remove('copied');
+  copyBtn.setAttribute('title','Kopiér');
+}
+
+copyBtn.addEventListener('click', async ()=>{
+  const text = pwText.textContent;
+  if(!text) return;
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    // fallback for eldre nettlesere
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  }
+  copyBtn.classList.add('copied');
+  copyBtn.setAttribute('title','Kopiert!');
+  setTimeout(resetCopy, 1600);
+});
+
+// ---- modus-bytte ----
+function setMode(m){
+  mode = m;
+  const isRandom = m === 'random';
+  modeRandom.classList.toggle('active', isRandom);
+  modePhrase.classList.toggle('active', !isRandom);
+  modeRandom.setAttribute('aria-selected', isRandom);
+  modePhrase.setAttribute('aria-selected', !isRandom);
+  randomControls.hidden = !isRandom;
+  phraseControls.hidden = isRandom;
+  generate();
+}
+modeRandom.addEventListener('click', ()=>setMode('random'));
+modePhrase.addEventListener('click', ()=>setMode('phrase'));
+
+// ---- glidebrytere ----
+lengthRange.addEventListener('input', ()=>{ lengthVal.textContent = lengthRange.value; generate(); });
+wordsRange.addEventListener('input', ()=>{ wordsVal.textContent = wordsRange.value; generate(); });
+
+// pass på at minst én avhukingsboks i tillegg til små bokstaver er aktiv
+[...document.querySelectorAll('#randomControls input[type=checkbox]:not([disabled]), #phraseControls input[type=checkbox]')]
+  .forEach(cb => cb.addEventListener('change', generate));
+
+genBtn.addEventListener('click', generate);
+
+// generer et passord ved første lasting
+generate();
+</script>
+</body>
+</html>
