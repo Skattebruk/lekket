@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lekket? Sjekk om passordet ditt er trygt</title>
+<meta name="description" content="Sjekk om passordet ditt er sterkt nok og om det finnes i kjente datalekkasjer. Alt skjer på din egen enhet.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -14,7 +15,7 @@
 <header class="nav">
   <div class="wrap navrow">
     <a class="brand" href="index.html">
-      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#7C71F2"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#EAEBF7" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
+      <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10.5" width="16" height="10" rx="2.5" fill="#8F84FF"/><path d="M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5" stroke="#EAEBF7" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="15.3" r="1.7" fill="#fff"/></svg>
       Lekket?
     </a>
     <button class="navtoggle" aria-label="Åpne meny" aria-expanded="false" aria-controls="navlinks">
@@ -30,77 +31,91 @@
 
 <main class="wrap">
 
-  <div class="hero">
-    <div class="eyebrow">Passordsikkerhet på norsk</div>
-    <h1>Er passordet ditt sterkt nok, og er det allerede lekket?</h1>
-    <p class="lead">Sjekk styrken på passordet ditt, og om det finnes i kjente datalekkasjer. Alt skjer på din egen enhet. Vi ser aldri passordet ditt.</p>
-
-    <div class="tool">
-      <div class="field">
-        <label for="pw">Skriv inn et passord</label>
-        <input id="pw" type="password" autocomplete="off" spellcheck="false" placeholder="Test gjerne et gammelt passord du vurderer å bytte" aria-describedby="privacy">
-        <button class="toggle" id="toggle" aria-label="Vis passord" type="button">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
+  <div class="hero-grid">
+    <div>
+      <div class="hero">
+        <h1>Er passordet ditt allerede lekket?</h1>
+        <p class="lead">Sjekk styrken, og om passordet finnes i kjente datalekkasjer. Alt regnes ut på din egen enhet. Vi ser aldri passordet ditt.</p>
       </div>
 
-      <div class="meter" id="meter" hidden>
-        <div class="meter-track">
-          <div class="meter-seg" data-i="0"></div>
-          <div class="meter-seg" data-i="1"></div>
-          <div class="meter-seg" data-i="2"></div>
-          <div class="meter-seg" data-i="3"></div>
+      <div class="tool">
+        <div class="field">
+          <label for="pw">Skriv inn et passord</label>
+          <input id="pw" type="password" autocomplete="off" spellcheck="false" placeholder="Test gjerne et gammelt passord du vurderer å bytte" aria-describedby="privacy">
+          <button class="toggle" id="toggle" aria-label="Vis passord" type="button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
         </div>
-        <div class="meter-info">
-          <span class="meter-label" id="strengthLabel"></span>
-          <span class="meter-detail" id="strengthDetail"></span>
+
+        <div class="meter" id="meter" hidden>
+          <div class="meter-track">
+            <div class="meter-seg" data-i="0"></div>
+            <div class="meter-seg" data-i="1"></div>
+            <div class="meter-seg" data-i="2"></div>
+            <div class="meter-seg" data-i="3"></div>
+          </div>
+          <div class="meter-info">
+            <span class="meter-label" id="strengthLabel"></span>
+            <span class="meter-detail" id="strengthDetail"></span>
+          </div>
+          <div class="meter-why" id="strengthWhy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            <span id="strengthWhyText"></span>
+          </div>
         </div>
-        <div class="meter-why" id="strengthWhy">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-          <span id="strengthWhyText"></span>
+
+        <button class="btn block checkbtn" id="checkBtn" disabled>Sjekk om passordet er lekket</button>
+
+        <div class="privacy-note" id="privacy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+          Kun de 5 første tegnene av en kryptografisk hash sendes. Aldri passordet selv.
         </div>
-      </div>
 
-      <button class="btn block checkbtn" id="checkBtn" disabled>Sjekk om passordet er lekket</button>
-
-      <div class="privacy-note" id="privacy">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-        Kun de 5 første tegnene av en kryptografisk hash sendes. Aldri passordet selv.
-      </div>
-
-      <div class="result" id="result">
-        <div class="result-inner" id="resultInner"></div>
+        <div class="result" id="result">
+          <div class="result-inner" id="resultInner"></div>
+        </div>
       </div>
     </div>
+
+    <aside class="seal" aria-labelledby="sealTitle">
+      <div class="seal-head">
+        <h2 id="sealTitle">Passordet ditt som hash</h2>
+        <span class="seal-state" id="sealState">Venter på passord</span>
+      </div>
+      <div class="hashgrid" id="hashgrid" aria-hidden="true"></div>
+      <div class="seal-legend">
+        <span class="lg sent">5 tegn sendes</span>
+        <span class="lg kept">35 tegn blir på enheten din</span>
+      </div>
+      <p class="seal-foot">Passordet gjøres om til en <b>SHA-1-hash</b> på 40 tegn. Bare hjørnet merket med gult rives av og sendes. Det passer til hundrevis av andre passord.</p>
+    </aside>
   </div>
 
   <section class="block">
-    <div class="eyebrow">Personvern</div>
     <h2>Hvordan kan vi sjekke uten å se passordet?</h2>
-    <p class="sub">Teknikken heter <b>k-anonymitet</b>. Den lar oss spørre en lekkasjedatabase om passordet ditt, uten at passordet, eller en gjenkjennelig del av det, noen gang forlater enheten din.</p>
-    <div class="steps3">
-      <div class="stepcard">
-        <div class="num">1</div>
-        <h3>Hashes lokalt</h3>
-        <p>Passordet gjøres om til en SHA-1-hash i nettleseren din. Hashen kan ikke reverseres tilbake til passordet.</p>
-      </div>
-      <div class="stepcard">
-        <div class="num">2</div>
-        <h3>Kun 5 tegn sendes</h3>
-        <p>Bare de fem første tegnene av hashen sendes til lekkasjetjenesten. De passer til hundrevis av ulike passord, så det er umulig å vite hvilket som er ditt.</p>
-      </div>
-      <div class="stepcard">
-        <div class="num">3</div>
-        <h3>Matches her hjemme</h3>
-        <p>Tjenesten sender tilbake alle treff på de fem tegnene. Resten av hashen sammenlignes lokalt på din enhet.</p>
-      </div>
-    </div>
+    <p class="sub">Teknikken heter <b>k-anonymitet</b>. Den lar oss spørre en lekkasjedatabase om passordet ditt, uten at passordet, eller en del som kan kjennes igjen, forlater enheten din.</p>
+    <ol class="flow">
+      <li>
+        <span class="where">På enheten din</span>
+        <h3>Passordet hashes</h3>
+        <p>Nettleseren gjør passordet om til en SHA-1-hash. En hash kan ikke regnes tilbake til passordet.</p>
+      </li>
+      <li>
+        <span class="where">Sendes over nettet</span>
+        <h3>Bare 5 tegn sendes</h3>
+        <p>De fem første tegnene i hashen sendes til lekkasjetjenesten. De passer til hundrevis av ulike passord, så ingen kan vite hvilket som er ditt.</p>
+      </li>
+      <li>
+        <span class="where">Tilbake på enheten din</span>
+        <h3>Treffet sjekkes lokalt</h3>
+        <p>Tjenesten sender tilbake alle hasher som starter med de fem tegnene. Resten av din hash sammenlignes her, hos deg.</p>
+      </li>
+    </ol>
   </section>
 
-  <section class="block" style="padding-top:0">
-    <div class="eyebrow">Råd</div>
+  <section class="block">
     <h2>Slik lager du et passord som holder</h2>
-    <p class="sub">Et sterkt passord trenger ikke være kryptisk. Det trenger å være langt og unikt. Trenger du hjelp, kan <a href="generator.html" style="color:var(--accent-deep)">generatoren</a> lage et for deg.</p>
+    <p class="sub">Et sterkt passord trenger ikke være kryptisk. Det trenger å være langt og unikt. Trenger du hjelp, kan <a href="generator.html">generatoren</a> lage et for deg.</p>
     <div class="tips">
       <div class="tip"><div class="ic">1</div><p><b>Lengde slår alt.</b> En lang setning er sterkere enn et kort rot av tegn. Sikt på minst 15 tegn.</p></div>
       <div class="tip"><div class="ic">2</div><p><b>Unikt per tjeneste.</b> Gjenbruk er den vanligste grunnen til at kontoer kapres. Ett lekket passord skal ikke åpne alt.</p></div>
@@ -132,6 +147,36 @@ const checkBtn = document.getElementById('checkBtn');
 const result = document.getElementById('result');
 const resultInner = document.getElementById('resultInner');
 const toggle = document.getElementById('toggle');
+const hashgrid = document.getElementById('hashgrid');
+const sealState = document.getElementById('sealState');
+
+// Konvolutten: 40 ruter for SHA-1-hashen. De 5 første (det som sendes) vises,
+// resten forblir forseglet og vises aldri i klartekst på skjermen.
+const cells = Array.from({length:40}, (_, i) => {
+  const c = document.createElement('span');
+  c.className = 'hc ' + (i < 5 ? 'sent' : 'kept');
+  c.textContent = '·';
+  hashgrid.appendChild(c);
+  return c;
+});
+
+let hashToken = 0;
+async function renderSeal(p){
+  const token = ++hashToken;
+  if(!p){
+    hashgrid.classList.remove('filled');
+    cells.forEach(c => c.textContent = '·');
+    sealState.textContent = 'Venter på passord';
+    sealState.classList.remove('live');
+    return;
+  }
+  const hash = await sha1Hex(p);
+  if(token !== hashToken) return; // brukeren har skrevet videre
+  hashgrid.classList.add('filled');
+  cells.forEach((c, i) => { c.textContent = i < 5 ? hash[i] : '•'; });
+  sealState.textContent = 'Regnet ut på enheten din';
+  sealState.classList.add('live');
+}
 
 const STRENGTH = [
   {label:'Veldig svakt', color:'var(--danger)'},
@@ -243,7 +288,7 @@ function renderMeter(p){
   }
 }
 
-pw.addEventListener('input', ()=>{ renderMeter(pw.value); result.classList.remove('show'); });
+pw.addEventListener('input', ()=>{ renderMeter(pw.value); renderSeal(pw.value); result.classList.remove('show'); });
 
 toggle.addEventListener('click', ()=>{
   const showing = pw.type === 'text';
@@ -264,7 +309,7 @@ function showResult(type, html){
 function kviz(prefix, suffix){
   return `<div class="kviz">
     <div class="ktitle">Slik ser forespørselen ut</div>
-    <div class="hashline"><span class="sent">${prefix}</span><span class="kept">${suffix}</span></div>
+    <div class="hashline"><span class="sent">${prefix}</span><span class="kept">${'•'.repeat(suffix.length)}</span></div>
     <div class="kflow">
       <span class="chip">${prefix}</span><span class="arrow">→ sendes til</span>
       <span>api.pwnedpasswords.com</span><span class="arrow">·</span>
@@ -285,6 +330,9 @@ checkBtn.addEventListener('click', async ()=>{
     const prefix = hash.slice(0,5);
     const suffix = hash.slice(5);
 
+    hashgrid.classList.add('sending');
+    setTimeout(()=>hashgrid.classList.remove('sending'), 900);
+
     const res = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
       headers: { 'Add-Padding': 'true' }
     });
@@ -300,7 +348,8 @@ checkBtn.addEventListener('click', async ()=>{
     if(count > 0){
       showResult('danger', `
         <h3><span class="badge">Lekket</span> Dette passordet er på avveie</h3>
-        <div class="rbody">Passordet er funnet <b>${count.toLocaleString('nb-NO')}</b> ganger i kjente datalekkasjer. Bytt det overalt du bruker det, og ikke bruk det igjen.</div>
+        <span class="countbig">${count.toLocaleString('nb-NO')} ganger</span>
+        <div class="rbody">Så mange ganger er passordet funnet i kjente datalekkasjer. Bytt det overalt du bruker det, og ikke bruk det igjen.</div>
         ${kviz(prefix, suffix)}
       `);
     } else {
